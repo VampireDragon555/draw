@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/gh/charlesyiu/webmodules@v0.1/graphics/lines.js"></script>
+    <div id="shapes">
+    </div>
+    <div id="settings">
+        <div id="settings-linewidth">
+            <p id="settings-linewidth-header">Width:</p>
+            <input type="number" id="settings-linewidth-value"></input>
+            <button id="settings-linewidth-add">+</button>
+            <button id="settings-linewidth-minus">-</button>
+        </div>
+        <div id="settings-undoredo">
+            <button id="settings-undoredo-undo">Undo</button>
+            <button id="settings-undoredo-redo">Redo</button>
+        </div>
+        <button id="settings-reset">Clear Canvas</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
