@@ -1,6 +1,5 @@
 const mobile = "ontouchstart" in window
 
-
 function generateRandomId(characterCount) {
     id = [...Array(characterCount)].map(i=>(~~(Math.random()*36)).toString(36)).join('')
     while (document.getElementById(id)) {
@@ -8,7 +7,6 @@ function generateRandomId(characterCount) {
     }
     return(id)
 }
-
 
 let drawing = false
 let lines = {}
@@ -76,71 +74,9 @@ function draw() {
     console.log("click")
 }
 
-if (mobile) { shapesElement.ontouchstart = draw }
-else { shapesElement.onmousedown = draw }
-
-
-const lineWidthHeader = document.getElementById("settings-linewidth-value")
-
-function updateLineWidthHeader() {
-    lineWidthHeader.value = lineWidth
+function activateDraw() {
+    shapesElement.hidden = false
+    if (mobile) { shapesElement.ontouchstart = draw }
+    else { shapesElement.onmousedown = draw }
 }
-
-function setLineWidth() {
-    lineWidth = parseInt(lineWidthHeader.value, 10)
-}
-
-function addLineWidth() {
-    if (lineWidth >= 150) { return }
-    lineWidth += 1
-    updateLineWidthHeader()
-}
-
-function minusLineWidth() {
-    if (lineWidth <= 1) { return }
-    lineWidth -= 1
-    updateLineWidthHeader()
-}
-
-document.getElementById("settings-linewidth-add").onclick = addLineWidth
-document.getElementById("settings-linewidth-minus").onclick = minusLineWidth
-
-lineWidthHeader.oninput = setLineWidth
-lineWidthHeader.value = lineWidth
-
-updateLineWidthHeader()
-
-
-function clearCanvas() {
-    for (key in lines) {
-        shapesElement.removeChild(lines[key]["element"])
-    }
-    lines = {}
-}
-
-document.getElementById("settings-reset").onclick = clearCanvas
-
-
-let lastUndoLines = []
-
-function undo() {
-    if (lineKey = Object.keys(lines)[Object.keys(lines).length - 1]) {
-        const line = lines[lineKey]
-        shapesElement.removeChild(document.getElementById(lineKey))
-        delete lines[lineKey]
-        if (lastUndoLines.length >= 10) { lastUndoLines.splice(0, 1) }
-        lastUndoLines.push({"key": lineKey, "line": line})
-    }
-}
-
-function redo() {
-    if (lineData = lastUndoLines.pop()) {
-        const lineKey = lineData["key"]
-        const line = lineData["line"]
-        lines[lineKey] = line
-        shapesElement.appendChild(line["element"])
-    }
-}
-
-document.getElementById("settings-undoredo-undo").onclick = undo
-document.getElementById("settings-undoredo-redo").onclick = redo
+shapesElement.hidden = true

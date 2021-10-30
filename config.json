@@ -1,0 +1,19 @@
+{
+    "elementIds": {
+        "shapesDiv": "shapes",
+
+        "settingsDiv": "settings",
+
+        "lineWidthSettingsDiv": "settings-linewidth",
+        "lineWidthSettingsHeader": "settings-linewidth-header",
+        "lineWidthSettingsInput": "settings-linewidth-value",
+        "addLineWidthSettingsButton": "settings-linewidth-add",
+        "minusLineWidthSettingsButton": "settings-linewidth-minus",
+
+        "undoRedoDiv": "settings-undoredo",
+        "undoButton": "settings-undoredo-undo",
+        "redoButton": "settings-undoredo-redo",
+
+        "clearCanvasButton": "settings-clear"
+    }
+}
