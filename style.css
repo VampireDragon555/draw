@@ -32,7 +32,7 @@ body {
 
 #settings-undoredo { margin-top: 10px; }
 
-#settings-reset, #settings-undoredo-undo, #settings-undoredo-redo, #settings-linewidth-add, #settings-linewidth-minus, #settings-linewidth-value {
+#settings-clear, #settings-undoredo-undo, #settings-undoredo-redo, #settings-linewidth-add, #settings-linewidth-minus, #settings-linewidth-value {
     border-style: none;
     border-radius: 10px;
     background-color: whitesmoke;
@@ -41,7 +41,7 @@ body {
     padding-bottom: 5px;
 }
 
-#settings-reset {
+#settings-clear {
     margin-top: 10px;
     width: 100%;
 }

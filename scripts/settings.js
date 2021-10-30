@@ -54,8 +54,8 @@ function activateSettings() {
     settingsElement.hidden = false
     document.getElementById(elementIds.addLineWidthSettingsButton).onclick = addLineWidth
     document.getElementById(elementIds.minusLineWidthSettingsButton).onclick = minusLineWidth
-    lineWidthInput.oninput = setLineWidth
-    lineWidthInput.value = lineWidth
+    document.getElementById(elementIds.lineWidthSettingsInput).oninput = setLineWidth
+    document.getElementById(elementIds.lineWidthSettingsInput).value = lineWidth
     updateLineWidthHeader()
     document.getElementById(elementIds.undoButton).onclick = undo
     document.getElementById(elementIds.redoButton).onclick = redo
