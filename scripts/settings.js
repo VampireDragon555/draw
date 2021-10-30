@@ -1,12 +1,11 @@
 const settingsElement = document.getElementById("settings")
-const lineWidthInput = document.getElementById(elementIds.lineWidthSettingsInput)
 
 function updateLineWidthHeader() {
-    lineWidthInput.value = lineWidth
+    document.getElementById(elementIds.lineWidthSettingsInput).value = lineWidth
 }
 
 function setLineWidth() {
-    lineWidth = parseInt(lineWidthInput.value, 10)
+    lineWidth = parseInt(document.getElementById(elementIds.lineWidthSettingsInput).value, 10)
 }
 
 function addLineWidth() {
