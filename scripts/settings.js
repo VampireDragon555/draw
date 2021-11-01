@@ -20,7 +20,7 @@ function setLineColorB() {
 }
 
 function setLineColorA() {
-    let newLineColorA = parseInt(document.getElementById(elementIds.lineColorSettingsInputA).value, 10)
+    let newLineColorA = parseFloat(document.getElementById(elementIds.lineColorSettingsInputA).value)
     if (newLineColorA > 1) { newLineColorA = 1 }
     else if ( newLineColorA < 0 ) { newLineColorA = 0 }
     lineColor.a = newLineColorA
