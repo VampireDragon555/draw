@@ -1,5 +1,5 @@
 let elementIds = null
-fetch("https://cdn.jsdelivr.net/gh/charlesyiu/draw/config.json")
+fetch("https://cdn.jsdelivr.net/gh/charlesyiu/draw@latest/config.json")
     .then(response => response.json())
     .then(json => {
         elementIds = json.elementIds
