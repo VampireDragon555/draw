@@ -159,14 +159,9 @@ function clearCanvas() {
     const clearCanvasButton = document.getElementById(elementIds.clearCanvasButton)
     clearCanvasButton.textContent = "Clear Canvas"
     clearCanvasButton.onclick = clearCanvasComfirm
-    let undolines = []
-    for (key in lines) {
-        const line = lines[key]
-        shapesElement.removeChild(lines[key].element)
-        undolines.push({"key": key, "line": line})
-    }
-    lastUndoLines.push(undolines)
+    for (key in lines) { shapesElement.removeChild(lines[key].element) }
     lines = {}
+    lastUndoLines = []
 }
 
 function activateSettings() {
