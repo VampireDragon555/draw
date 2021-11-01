@@ -24,21 +24,26 @@ body {
 }
 
 
-#settings-linewidth, #settings-undoredo {
+.subsettings {
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     padding: 10px;
+    margin-top: 10px;
 }
 
-#settings-undoredo { margin-top: 10px; }
+#settings-linecolor { margin-top: 0; }
 
-#settings-clear, #settings-undoredo-undo, #settings-undoredo-redo, #settings-linewidth-add, #settings-linewidth-minus, #settings-linewidth-value {
+#settings-clear, #settings-undoredo-undo, #settings-undoredo-redo, #settings-linewidth-add, #settings-linewidth-minus, .numberinput {
     border-style: none;
     border-radius: 10px;
     background-color: whitesmoke;
     padding: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+#settings-clear:active, #settings-undoredo-undo:active, #settings-undoredo-redo:active, #settings-linewidth-add:active, #settings-linewidth-minus:active, #settings-linewidth-value:active {
+    color: whitesmoke;
 }
 
 #settings-clear {
@@ -53,25 +58,19 @@ body {
 #settings-undoredo-undo, #settings-undoredo-redo, #settings-linewidth-add, #settings-linewidth-minus { width: 47.5%; }
 
 
-#settings-linewidth-value {
+.numberinput {
     width: 75%;
     text-align: center;
     margin-bottom: 5%;
+    -moz-appearance: textfield;
 }
-
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+.numberinput::-webkit-outer-spin-button, .numberinput::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type=number] {
-    -moz-appearance: textfield;
-}
 
 
-#settings-linewidth-header {
-    margin: 3.75px;
-}
-
+#settings-linewidth-header { margin: 3.75px; }
 
 #loading-notice {
     position: fixed;

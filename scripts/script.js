@@ -13,3 +13,4 @@ if (!elementIds) {
     document.getElementById("shapes").hidden = true
     document.getElementById("settings").hidden = true
 }
+const mobile = "ontouchstart" in window

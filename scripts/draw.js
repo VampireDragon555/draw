@@ -1,5 +1,3 @@
-const mobile = "ontouchstart" in window
-
 function generateRandomId(characterCount) {
     id = [...Array(characterCount)].map(i=>(~~(Math.random()*36)).toString(36)).join('')
     while (document.getElementById(id)) {
@@ -11,6 +9,7 @@ function generateRandomId(characterCount) {
 let drawing = false
 let lines = {}
 let lineWidth = 10
+let lineColor = {"r": 0, "g": 0, "b": 0, "a": 1}
 
 const shapesElement = document.getElementById("shapes")
 
@@ -23,7 +22,8 @@ function drawLine() {
     shapesElement.appendChild(lineElement)
 
     const lineShape = shapify(lineElement)
-    lineShape.lineWidth = lineWidth > 150 ? 150 : (lineWidth < 1 ? 1 : lineWidth)
+    lineShape.lineWidth = lineWidth
+    lineShape.lineColor = `rgba(${lineColor.r}, ${lineColor.g}, ${lineColor.b}, ${lineColor.a})`
 
     if (mobile) {
         lineShape.x = window.event.touches[0].clientX

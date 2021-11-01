@@ -4,6 +4,13 @@
 
         "settingsDiv": "settings",
 
+        "lineColorSettingsDiv": "settings-linecolor",
+        "lineColorSettingsHeader": "settings-linecolor-header",
+        "lineColorSettingsInputR": "settings-linecolor-rvalue",
+        "lineColorSettingsInputG": "settings-linecolor-gvalue",
+        "lineColorSettingsInputB": "settings-linecolor-bvalue",
+        "lineColorSettingsInputA": "settings-linecolor-avalue",
+
         "lineWidthSettingsDiv": "settings-linewidth",
         "lineWidthSettingsHeader": "settings-linewidth-header",
         "lineWidthSettingsInput": "settings-linewidth-value",
