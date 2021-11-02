@@ -15,27 +15,31 @@
     </div>
     <div id="settings">
         <div id="settings-linecolor" class="subsettings">
-            <p id="settings-linecolor-header">Color:</p>
-            <input type="number" id="settings-linecolor-rvalue" class="numberinput" value="0">
-            <input type="number" id="settings-linecolor-gvalue" class="numberinput" value="0">
-            <input type="number" id="settings-linecolor-bvalue" class="numberinput" value="0">
-            <input type="number" id="settings-linecolor-avalue" class="numberinput" value="1">
+            <p id="settings-linecolor-header" class="subsettings-header">Color:</p>
+            <input type="range" id="settings-linecolor-avalue" class="sliderinput">
+            <div id="settings-linecolor-gridcolorpicker" class="gridcolorpickerinput"></div>
         </div>
         <div id="settings-linewidth" class="subsettings">
-            <p id="settings-linewidth-header">Width:</p>
+            <p id="settings-linewidth-header" class="subsettings-header">Width:</p>
             <input type="number" id="settings-linewidth-value" class="numberinput">
-            <button id="settings-linewidth-add">+</button>
-            <button id="settings-linewidth-minus">-</button>
+            <button id="settings-linewidth-add" class="doublebuttons">+</button>
+            <button id="settings-linewidth-minus" class="doublebuttons">-</button>
         </div>
+        <!--
+        <div id="settings-tools" class="subsettings">
+            <button id="settings-tools-linetool" class="doublebuttons">Line Tool</button>
+            <button id="settings-tools-shapetool" class="doublebuttons">Shape Tool</button>
+        </div>
+        -->
         <div id="settings-undoredo" class="subsettings">
-            <button id="settings-undoredo-undo">Undo</button>
-            <button id="settings-undoredo-redo">Redo</button>
+            <button id="settings-undoredo-undo" class="doublebuttons">Undo</button>
+            <button id="settings-undoredo-redo" class="doublebuttons">Redo</button>
         </div>
-        <button id="settings-clear">Clear Canvas</button>
+        <button id="settings-clear" class="singlebutton">Clear Canvas</button>
     </div>
     <script src="https://cdn.jsdelivr.net/gh/charlesyiu/webmodules@v0.1/graphics/lines.js"></script>
     <script src="scripts/script.js"></script>
-    <script src="scripts/draw.js"></script>
+    <script src="scripts/tools.js"></script>
     <script src="scripts/settings.js"></script>
 </body>
 </html>
