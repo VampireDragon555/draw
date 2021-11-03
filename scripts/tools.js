@@ -132,7 +132,7 @@ function scribbleTool() {
 
     let lastPosition = {}
     let count = 0
-    let refreshCount = mobile ? 3 : 1
+    const refreshCount = mobile ? 3 : 1
 
     function scribble(shapeElement, a, b) {
         shapeElement.appendLine(generateRandomId(10), a, b)
