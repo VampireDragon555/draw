@@ -11,6 +11,7 @@ function initialize() {
             document.getElementById("loading-notice").hidden = true
             document.getElementById("shapes").hidden = false
             document.getElementById("settings").hidden = false
+            initializeCursor()
             setTool(scribbleTool)
             initializeTools()
             initializeSettings()

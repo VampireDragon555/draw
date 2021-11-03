@@ -1,5 +1,8 @@
 {
     "elementIds": {
+        "cursor": "cursor",
+        "cursorDot": "cursor-dot",
+
         "shapesDiv": "shapes",
 
         "settingsDiv": "settings",
