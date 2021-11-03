@@ -1,7 +1,8 @@
 // TODO Save Settings and Canvas data
 let elementIds = null
 let presetLineColors = null
-const configUrl = window.location.hostname != "charlesyiu.github.io" ? `${window.location.protocol}//${window.location.hostname}:${window.location.port}/config.json` : "https://cdn.jsdelivr.net/gh/charlesyiu/draw@latest/config.json"
+const port = window.location.port != "" ? `:${window.location.port}` : ""
+const configUrl = `${window.location.protocol}//${window.location.hostname}${port}${window.location.pathname}config.json`
 function initialize() {
     fetch(configUrl)
         .then(response => response.json())
