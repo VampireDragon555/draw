@@ -1,183 +1,244 @@
-function setLineColorR() {
-    let newLineColorR = parseInt(document.getElementById(elementIds.lineColorSettingsInputR).value, 10)
-    if (newLineColorR > 255) { newLineColorR = 255 }
-    else if ( newLineColorR < 0 ) { newLineColorR = 0 }
-    lineColor.r = newLineColorR
-}
+function updateLineColorInputA() { document.getElementById(elementIds.lineColorSettingsInputA).value = lineColor.a * 100 }
 
-function setLineColorG() {
-    let newLineColorG = parseInt(document.getElementById(elementIds.lineColorSettingsInputG).value, 10)
-    if (newLineColorG > 255) { newLineColorG = 255 }
-    else if ( newLineColorG < 0 ) { newLineColorG = 0 }
-    lineColor.g = newLineColorG
+function toggleLineColorInputOutline() {
+    const lineColorInput = document.getElementById(elementIds.lineColorSettingsInput)
+    if (!lineColorInput.style.border) {
+        lineColorInput.style.border = "5px solid white"
+        if (navigator.vendor ==  "Apple Computer, Inc.") { lineColorInput.style.width = "91.5%" }
+        lineColorInput.style.marginTop = "9%"
+    } else {
+        lineColorInput.style.border = ""
+        if (navigator.vendor ==  "Apple Computer, Inc.") { lineColorInput.style.width = "96.5%" }
+        lineColorInput.style.marginTop = "10%"
+    }
 }
+function setLineColor() {
+    const lineColorInput = document.getElementById(elementIds.lineColorSettingsInput)
 
-function setLineColorB() {
-    let newLineColorB = parseInt(document.getElementById(elementIds.lineColorSettingsInputB).value, 10)
-    if (newLineColorB > 255) { newLineColorB = 255 }
-    else if ( newLineColorB < 0 ) { newLineColorB = 0 }
-    lineColor.b = newLineColorB
+    document.getElementById(elementIds.lineColorSettingsGrid).childNodes.forEach(child => { document.getElementById(child.id).style.outline = "" })
+    if (!lineColorInput.style.border) { toggleLineColorInputOutline() }
+
+    const hex = lineColorInput.value
+    lineColorInput.style.backgroundColor = hex
+    r = "0x" + hex[1] + hex[2]
+    g = "0x" + hex[3] + hex[4]
+    b = "0x" + hex[5] + hex[6]
+    lineColor.r = +r
+    lineColor.g = +g
+    lineColor.b = +b
 }
 
 function setLineColorA() {
-    let newLineColorA = parseFloat(document.getElementById(elementIds.lineColorSettingsInputA).value)
+    let newLineColorA = parseInt(document.getElementById(elementIds.lineColorSettingsInputA).value, 10) / 100
     if (newLineColorA > 1) { newLineColorA = 1 }
-    else if ( newLineColorA < 0 ) { newLineColorA = 0 }
+    else if ( newLineColorA < 0.015 ) { newLineColorA = 0.015 }
     lineColor.a = newLineColorA
 }
 
+function generateLineColorGrid() {
+    const lineColorGrid = document.getElementById(elementIds.lineColorSettingsGrid)
+    let moveLeft = 0
+    let totalCount = 0
+    let count = 0
+    const size = 16
+    presetLineColors.forEach(color => {
+        if (count === 4) {
+            count = 0
+            moveLeft += size
+        }
+        const singleColorGrid = document.createElement("div")
+        singleColorGrid.id = generateRandomId(7)
+        singleColorGrid.style.position = "relative"
+        singleColorGrid.style.width = `${size}px`
+        singleColorGrid.style.height = `${size}px`
+        singleColorGrid.style.left = `${moveLeft}px`
+        singleColorGrid.style.top = `-${(totalCount * size) - (count * size)}px`
+        singleColorGrid.style.backgroundColor = formatColor(color)
+        singleColorGrid.setAttribute("r", color.r.toString())
+        singleColorGrid.setAttribute("g", color.g.toString())
+        singleColorGrid.setAttribute("b", color.b.toString())
+        if (color.r === lineColor.r && color.g === lineColor.g && color.b === lineColor.b) {
+            singleColorGrid.style.outline = `5px solid white`
+        }
+        singleColorGrid.onclick = () => {
+            lineColorGrid.childNodes.forEach(child => { document.getElementById(child.id).style.outline = "" })
+            if (document.getElementById(elementIds.lineColorSettingsInput).style.border) { toggleLineColorInputOutline() }
+            singleColorGrid.style.outline = `5px solid white`
+            lineColor.r = parseInt(color.r, 10)
+            lineColor.g = parseInt(color.g, 10)
+            lineColor.b = parseInt(color.b, 10)
+        }
+        lineColorGrid.appendChild(singleColorGrid)
+        totalCount += 1
+        count += 1
+    })
+    lineColorGrid.style.height = `${4 * size}px`
+}
 
-function updateLineWidthHeader() { document.getElementById(elementIds.lineWidthSettingsInput).value = lineWidth }
+function updateLineWidthInput() { document.getElementById(elementIds.lineWidthSettingsInput).value = thickness }
+
 
 function setLineWidth() {
     let newLineWidth = parseInt(document.getElementById(elementIds.lineWidthSettingsInput).value, 10)
     if (newLineWidth > 150) { newLineWidth = 150 }
-    else if ( newLineWidth < 1 ) { linewLineWidth = 1 }
-    lineWidth = newLineWidth
+    else if ( newLineWidth < 1 ) { newLineWidth = 1 }
+    thickness = newLineWidth
 }
 
-let pressing = false
-
+let addLineWidthPressing = false
 function addLineWidth() {
-    if (pressing) { return }
-    pressing = true
+    if (addLineWidthPressing) { return }
+    addLineWidthPressing = true
     const addLineWidthSettingsButton = document.getElementById(elementIds.addLineWidthSettingsButton)
     function stopAddLineWidth() {
-        pressing = false
+        addLineWidthPressing = false
         if (mobile) { addLineWidthSettingsButton.ontouchend = null }
         else { addLineWidthSettingsButton.onmouseup = null }
     }
     function addLineWidthAction() {
-        if (lineWidth >= 150) { return }
-        lineWidth += 1
-        updateLineWidthHeader()
+        if (thickness >= 150) { return }
+        thickness += 1
+        updateLineWidthInput()
     }
     function repeatAddLineWidthAction() {
-        if (!pressing) { return }
+        if (!addLineWidthPressing) { return }
         addLineWidthAction()
         setTimeout(repeatAddLineWidthAction, 125)
     }
     if (mobile) { addLineWidthSettingsButton.ontouchend = stopAddLineWidth }
     else { addLineWidthSettingsButton.onmouseup = stopAddLineWidth }
     addLineWidthAction()
-    setTimeout(() => { if (pressing) { repeatAddLineWidthAction() } }, 1000)
+    setTimeout(() => { if (addLineWidthPressing) { repeatAddLineWidthAction() } }, 1000)
 }
 
+let minusLineWidthPressing = false
 function minusLineWidth() {
-    if (pressing) { return }
-    pressing = true
+    if (minusLineWidthPressing) { return }
+    minusLineWidthPressing = true
     const minusLineWidthSettingsButton = document.getElementById(elementIds.minusLineWidthSettingsButton)
     function stopMinusLineWidth() {
-        pressing = false
+        minusLineWidthPressing = false
         if (mobile) { minusLineWidthSettingsButton.ontouchend = null }
         else { minusLineWidthSettingsButton.onmouseup = null }
     }
     function minusLineWidthAction() {
-        if (lineWidth <= 1) { return }
-        lineWidth -= 1
-        updateLineWidthHeader()
+        if (thickness <= 1) { return }
+        thickness -= 1
+        updateLineWidthInput()
     }
     function repeatMinusLineWidthAction() {
-        if (!pressing) { return }
+        if (!minusLineWidthPressing) { return }
         minusLineWidthAction()
         setTimeout(repeatMinusLineWidthAction, 125)
     }
     if (mobile) { minusLineWidthSettingsButton.ontouchend = stopMinusLineWidth }
     else { minusLineWidthSettingsButton.onmouseup = stopMinusLineWidth }
     minusLineWidthAction()
-    setTimeout(() => { if (pressing) { repeatMinusLineWidthAction() } }, 1000)
+    setTimeout(() => { if (minusLineWidthPressing) { repeatMinusLineWidthAction() } }, 1000)
 }
 
-let lastUndoLines = []
+let removedActions = []
 
+let undoPressing = false
 function undo() {
-    if (pressing) { return }
-    pressing = true
+    if (undoPressing) { return }
+    undoPressing = true
     const undoButton = document.getElementById(elementIds.undoButton)
     function stopUndo() {
-        pressing = false
+        undoPressing = false
         if (mobile) { undoButton.ontouchend = null }
         else { undoButton.onmouseup = null }
     }
     function undoAction() {
-        if (lineKey = Object.keys(lines)[Object.keys(lines).length - 1]) {
-            const line = lines[lineKey]
-            shapesElement.removeChild(document.getElementById(lineKey))
-            delete lines[lineKey]
-            if (lastUndoLines.length >= 10) { lastUndoLines.splice(0, 1) }
-            lastUndoLines.push([{"key": lineKey, "line": line}])
+        if (action = actions.pop()) {
+            if (action.type === actionTypes.draw) {
+                const shapeId = action.shape.id
+                shapesElement.removeChild(document.getElementById(shapeId))
+                if (removedActions.length >= 10) { removedActions.splice(0, 1) }
+                removedActions.push(action)
+            }
         }
     }
     function repeatUndoAction() {
-        if (!pressing) { return }
+        if (!undoPressing) { return }
         undoAction()
         setTimeout(repeatUndoAction, 125)
     }
     if (mobile) { undoButton.ontouchend = stopUndo }
     else { undoButton.onmouseup = stopUndo }
     undoAction()
-    setTimeout(() => { if (pressing) { repeatUndoAction() } }, 1000)
+    setTimeout(() => { if (undoPressing) { repeatUndoAction() } }, 1000)
 }
 
+let redoPressing = false
 function redo() {
-    if (pressing) { return }
-    pressing = true
+    if (redoPressing) { return }
+    redoPressing = true
     const redoButton = document.getElementById(elementIds.redoButton)
     function stopRedo() {
-        pressing = false
+        redoPressing = false
         if (mobile) { redoButton.ontouchend = null }
         else { redoButton.onmouseup = null }
     }
     function redoAction() {
-        if (linesData = lastUndoLines.pop()) {
-            linesData.forEach(lineData => {
-                const lineKey = lineData.key
-                const line = lineData.line
-                lines[lineKey] = line
-                shapesElement.appendChild(line.element)
-            })
+        if (action = removedActions.pop()) {
+            if (action.type === actionTypes.draw) {
+                actions.push(action)
+                shapesElement.appendChild(action.element)
+            }
         }
     }
     function repeatRedoAction() {
-        if (!pressing) { return }
+        if (!redoPressing) { return }
         redoAction()
         setTimeout(repeatRedoAction, 125)
     }
     if (mobile) { redoButton.ontouchend = stopRedo }
     else { redoButton.onmouseup = stopRedo }
     redoAction()
-    setTimeout(() => { if (pressing) { repeatRedoAction() } }, 1000)
+    setTimeout(() => { if (redoPressing) { repeatRedoAction() } }, 1000)
 }
 
-function clearCanvasComfirm() {
-    const clearCanvasButton = document.getElementById(elementIds.clearCanvasButton)
-    clearCanvasButton.textContent = "Click To Comfirm"
-    clearCanvasButton.onclick = clearCanvas
-}
-
-function clearCanvas() {
+let clearCanvasPressed = false
+function resetClearCanvasButton() {
     const clearCanvasButton = document.getElementById(elementIds.clearCanvasButton)
     clearCanvasButton.textContent = "Clear Canvas"
     clearCanvasButton.onclick = clearCanvasComfirm
-    for (key in lines) { shapesElement.removeChild(lines[key].element) }
-    lines = {}
-    lastUndoLines = []
+}
+function clearCanvasComfirm() {
+    clearCanvasPressed = false
+
+    const clearCanvasButton = document.getElementById(elementIds.clearCanvasButton)
+    clearCanvasButton.textContent = "Click To Comfirm"
+    clearCanvasButton.onclick = clearCanvas
+
+    setTimeout(() => { if (!clearCanvasPressed) { resetClearCanvasButton() } }, 2500)
+}
+function clearCanvas() {
+    clearCanvasPressed = true
+
+    resetClearCanvasButton()
+
+    while (shapesElement.hasChildNodes()) {
+        shapesElement.removeChild(shapesElement.firstChild)
+    }
+    removedActions = []
+    actions = []
 }
 
-function activateSettings() {
+function initializeSettings() {
     document.getElementById("settings").hidden = false
-
-    document.getElementById(elementIds.lineColorSettingsInputR).oninput = setLineColorR
-    document.getElementById(elementIds.lineColorSettingsInputR).value = lineColor.r
-    document.getElementById(elementIds.lineColorSettingsInputG).oninput = setLineColorG
-    document.getElementById(elementIds.lineColorSettingsInputG).value = lineColor.g
-    document.getElementById(elementIds.lineColorSettingsInputB).oninput = setLineColorB
-    document.getElementById(elementIds.lineColorSettingsInputB).value = lineColor.b
+    generateLineColorGrid()
     document.getElementById(elementIds.lineColorSettingsInputA).oninput = setLineColorA
     document.getElementById(elementIds.lineColorSettingsInputA).value = lineColor.a
+    updateLineColorInputA()
+    document.getElementById(elementIds.lineColorSettingsInput).oninput = setLineColor
+    if (navigator.vendor ==  "Apple Computer, Inc.") {
+        document.getElementById(elementIds.lineColorSettingsInput).style.width = "96.5%"
+    }
     document.getElementById(elementIds.lineWidthSettingsInput).oninput = setLineWidth
-    document.getElementById(elementIds.lineWidthSettingsInput).value = lineWidth
-    updateLineWidthHeader()
+    document.getElementById(elementIds.lineWidthSettingsInput).value = thickness
+    updateLineWidthInput()
     if (mobile) {
         document.getElementById(elementIds.undoButton).ontouchstart = undo
         document.getElementById(elementIds.redoButton).ontouchstart = redo
