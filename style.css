@@ -46,16 +46,13 @@ body {
     color: whitesmoke;
 }
 
-.singlebutton {
-    margin-top: 10px;
-    width: 100%;
-}
+.singlebutton { width: 100%; }
+#settings-clear { margin-top: 10px; }
 
-#settings-linewidth-add, #settings-linewidth-minus {
-    margin-top: -10px;
-}
+#settings-linewidth-add, #settings-linewidth-minus { margin-top: -10px; }
 
 .doublebuttons { width: 47.5%; }
+#settings-tools-linetool { margin-top: 2.5%; }
 
 .numberinput {
     width: 75%;
@@ -91,7 +88,7 @@ input:focus {
     border-radius: 8px;
     background: #FFFFFF;
     cursor: pointer;
--webkit-appearance: none;
+    -webkit-appearance: none;
     margin-top: -6.5px;
 }
 .sliderinput:focus::-webkit-slider-runnable-track {
@@ -158,4 +155,14 @@ input:focus {
 
 #settings-linecolor {
     position: relative;
+}
+
+.colorinput {
+    -webkit-appearance: none;
+    background-color: transparent;
+    border-style: none;
+    position: relative;
+    width: 100%;
+    margin-top: 10%;
+    background-color: black;
 }

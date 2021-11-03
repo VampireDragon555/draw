@@ -1,6 +1,7 @@
+// TODO Save Settings and Canvas data
 let elementIds = null
 let presetLineColors = null
-const configUrl = window.location.hostname === "127.0.0.1" ? `${window.location.protocol}//127.0.0.1:${window.location.port}/config.json` : "https://cdn.jsdelivr.net/gh/charlesyiu/draw@latest/config.json"
+const configUrl = window.location.hostname != "charlesyiu.github.io" ? `${window.location.protocol}//${window.location.hostname}:${window.location.port}/config.json` : "https://cdn.jsdelivr.net/gh/charlesyiu/draw@latest/config.json"
 fetch(configUrl)
     .then(response => response.json())
     .then(json => {
@@ -9,8 +10,9 @@ fetch(configUrl)
         document.getElementById("loading-notice").hidden = true
         document.getElementById("shapes").hidden = false
         document.getElementById("settings").hidden = false
-        setTool(lineTool)
-        activateSettings()
+        setTool(scribbleTool)
+        initializeTools()
+        initializeSettings()
     })
 if (!elementIds) {
     document.getElementById("shapes").hidden = true

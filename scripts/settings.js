@@ -1,4 +1,32 @@
-function updateLineColorInput() { document.getElementById(elementIds.lineColorSettingsInputA).value = lineColor.a * 100 }
+function updateLineColorInputA() { document.getElementById(elementIds.lineColorSettingsInputA).value = lineColor.a * 100 }
+
+function toggleLineColorInputOutline() {
+    const lineColorInput = document.getElementById(elementIds.lineColorSettingsInput)
+    if (!lineColorInput.style.border) {
+        lineColorInput.style.border = "5px solid white"
+        if (navigator.vendor ==  "Apple Computer, Inc.") { lineColorInput.style.width = "91.5%" }
+        lineColorInput.style.marginTop = "9%"
+    } else {
+        lineColorInput.style.border = ""
+        if (navigator.vendor ==  "Apple Computer, Inc.") { lineColorInput.style.width = "96.5%" }
+        lineColorInput.style.marginTop = "10%"
+    }
+}
+function setLineColor() {
+    const lineColorInput = document.getElementById(elementIds.lineColorSettingsInput)
+
+    document.getElementById(elementIds.lineColorSettingsGrid).childNodes.forEach(child => { document.getElementById(child.id).style.outline = "" })
+    if (!lineColorInput.style.border) { toggleLineColorInputOutline() }
+
+    const hex = lineColorInput.value
+    lineColorInput.style.backgroundColor = hex
+    r = "0x" + hex[1] + hex[2]
+    g = "0x" + hex[3] + hex[4]
+    b = "0x" + hex[5] + hex[6]
+    lineColor.r = +r
+    lineColor.g = +g
+    lineColor.b = +b
+}
 
 function setLineColorA() {
     let newLineColorA = parseInt(document.getElementById(elementIds.lineColorSettingsInputA).value, 10) / 100
@@ -29,10 +57,13 @@ function generateLineColorGrid() {
         singleColorGrid.setAttribute("r", color.r.toString())
         singleColorGrid.setAttribute("g", color.g.toString())
         singleColorGrid.setAttribute("b", color.b.toString())
+        if (color.r === lineColor.r && color.g === lineColor.g && color.b === lineColor.b) {
+            singleColorGrid.style.outline = `5px solid white`
+        }
         singleColorGrid.onclick = () => {
             lineColorGrid.childNodes.forEach(child => { document.getElementById(child.id).style.outline = "" })
+            if (document.getElementById(elementIds.lineColorSettingsInput).style.border) { toggleLineColorInputOutline() }
             singleColorGrid.style.outline = `5px solid white`
-            singleColorGrid.style.outlineOffset = `${size - 10}`
             lineColor.r = parseInt(color.r, 10)
             lineColor.g = parseInt(color.g, 10)
             lineColor.b = parseInt(color.b, 10)
@@ -50,18 +81,17 @@ function updateLineWidthInput() { document.getElementById(elementIds.lineWidthSe
 function setLineWidth() {
     let newLineWidth = parseInt(document.getElementById(elementIds.lineWidthSettingsInput).value, 10)
     if (newLineWidth > 150) { newLineWidth = 150 }
-    else if ( newLineWidth < 1 ) { linewLineWidth = 1 }
+    else if ( newLineWidth < 1 ) { newLineWidth = 1 }
     thickness = newLineWidth
 }
 
-let pressing = false
-
+let addLineWidthPressing = false
 function addLineWidth() {
-    if (pressing) { return }
-    pressing = true
+    if (addLineWidthPressing) { return }
+    addLineWidthPressing = true
     const addLineWidthSettingsButton = document.getElementById(elementIds.addLineWidthSettingsButton)
     function stopAddLineWidth() {
-        pressing = false
+        addLineWidthPressing = false
         if (mobile) { addLineWidthSettingsButton.ontouchend = null }
         else { addLineWidthSettingsButton.onmouseup = null }
     }
@@ -71,22 +101,23 @@ function addLineWidth() {
         updateLineWidthInput()
     }
     function repeatAddLineWidthAction() {
-        if (!pressing) { return }
+        if (!addLineWidthPressing) { return }
         addLineWidthAction()
         setTimeout(repeatAddLineWidthAction, 125)
     }
     if (mobile) { addLineWidthSettingsButton.ontouchend = stopAddLineWidth }
     else { addLineWidthSettingsButton.onmouseup = stopAddLineWidth }
     addLineWidthAction()
-    setTimeout(() => { if (pressing) { repeatAddLineWidthAction() } }, 1000)
+    setTimeout(() => { if (addLineWidthPressing) { repeatAddLineWidthAction() } }, 1000)
 }
 
+let minusLineWidthPressing = false
 function minusLineWidth() {
-    if (pressing) { return }
-    pressing = true
+    if (minusLineWidthPressing) { return }
+    minusLineWidthPressing = true
     const minusLineWidthSettingsButton = document.getElementById(elementIds.minusLineWidthSettingsButton)
     function stopMinusLineWidth() {
-        pressing = false
+        minusLineWidthPressing = false
         if (mobile) { minusLineWidthSettingsButton.ontouchend = null }
         else { minusLineWidthSettingsButton.onmouseup = null }
     }
@@ -96,24 +127,25 @@ function minusLineWidth() {
         updateLineWidthInput()
     }
     function repeatMinusLineWidthAction() {
-        if (!pressing) { return }
+        if (!minusLineWidthPressing) { return }
         minusLineWidthAction()
         setTimeout(repeatMinusLineWidthAction, 125)
     }
     if (mobile) { minusLineWidthSettingsButton.ontouchend = stopMinusLineWidth }
     else { minusLineWidthSettingsButton.onmouseup = stopMinusLineWidth }
     minusLineWidthAction()
-    setTimeout(() => { if (pressing) { repeatMinusLineWidthAction() } }, 1000)
+    setTimeout(() => { if (minusLineWidthPressing) { repeatMinusLineWidthAction() } }, 1000)
 }
 
 let removedActions = []
 
+let undoPressing = false
 function undo() {
-    if (pressing) { return }
-    pressing = true
+    if (undoPressing) { return }
+    undoPressing = true
     const undoButton = document.getElementById(elementIds.undoButton)
     function stopUndo() {
-        pressing = false
+        undoPressing = false
         if (mobile) { undoButton.ontouchend = null }
         else { undoButton.onmouseup = null }
     }
@@ -128,55 +160,65 @@ function undo() {
         }
     }
     function repeatUndoAction() {
-        if (!pressing) { return }
+        if (!undoPressing) { return }
         undoAction()
         setTimeout(repeatUndoAction, 125)
     }
     if (mobile) { undoButton.ontouchend = stopUndo }
     else { undoButton.onmouseup = stopUndo }
     undoAction()
-    setTimeout(() => { if (pressing) { repeatUndoAction() } }, 1000)
+    setTimeout(() => { if (undoPressing) { repeatUndoAction() } }, 1000)
 }
 
+let redoPressing = false
 function redo() {
-    if (pressing) { return }
-    pressing = true
+    if (redoPressing) { return }
+    redoPressing = true
     const redoButton = document.getElementById(elementIds.redoButton)
     function stopRedo() {
-        pressing = false
+        redoPressing = false
         if (mobile) { redoButton.ontouchend = null }
         else { redoButton.onmouseup = null }
     }
     function redoAction() {
         if (action = removedActions.pop()) {
             if (action.type === actionTypes.draw) {
-                const shapeId = action.shape.id
                 actions.push(action)
                 shapesElement.appendChild(action.element)
             }
         }
     }
     function repeatRedoAction() {
-        if (!pressing) { return }
+        if (!redoPressing) { return }
         redoAction()
         setTimeout(repeatRedoAction, 125)
     }
     if (mobile) { redoButton.ontouchend = stopRedo }
     else { redoButton.onmouseup = stopRedo }
     redoAction()
-    setTimeout(() => { if (pressing) { repeatRedoAction() } }, 1000)
+    setTimeout(() => { if (redoPressing) { repeatRedoAction() } }, 1000)
 }
 
-function clearCanvasComfirm() {
-    const clearCanvasButton = document.getElementById(elementIds.clearCanvasButton)
-    clearCanvasButton.textContent = "Click To Comfirm"
-    clearCanvasButton.onclick = clearCanvas
-}
-
-function clearCanvas() {
+let clearCanvasPressed = false
+function resetClearCanvasButton() {
     const clearCanvasButton = document.getElementById(elementIds.clearCanvasButton)
     clearCanvasButton.textContent = "Clear Canvas"
     clearCanvasButton.onclick = clearCanvasComfirm
+}
+function clearCanvasComfirm() {
+    clearCanvasPressed = false
+
+    const clearCanvasButton = document.getElementById(elementIds.clearCanvasButton)
+    clearCanvasButton.textContent = "Click To Comfirm"
+    clearCanvasButton.onclick = clearCanvas
+
+    setTimeout(() => { if (!clearCanvasPressed) { resetClearCanvasButton() } }, 2500)
+}
+function clearCanvas() {
+    clearCanvasPressed = true
+
+    resetClearCanvasButton()
+
     while (shapesElement.hasChildNodes()) {
         shapesElement.removeChild(shapesElement.firstChild)
     }
@@ -184,12 +226,16 @@ function clearCanvas() {
     actions = []
 }
 
-function activateSettings() {
+function initializeSettings() {
     document.getElementById("settings").hidden = false
     generateLineColorGrid()
     document.getElementById(elementIds.lineColorSettingsInputA).oninput = setLineColorA
     document.getElementById(elementIds.lineColorSettingsInputA).value = lineColor.a
-    updateLineColorInput()
+    updateLineColorInputA()
+    document.getElementById(elementIds.lineColorSettingsInput).oninput = setLineColor
+    if (navigator.vendor ==  "Apple Computer, Inc.") {
+        document.getElementById(elementIds.lineColorSettingsInput).style.width = "96.5%"
+    }
     document.getElementById(elementIds.lineWidthSettingsInput).oninput = setLineWidth
     document.getElementById(elementIds.lineWidthSettingsInput).value = thickness
     updateLineWidthInput()

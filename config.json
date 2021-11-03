@@ -8,12 +8,18 @@
         "lineColorSettingsHeader": "settings-linecolor-header",
         "lineColorSettingsInputA": "settings-linecolor-avalue",
         "lineColorSettingsGrid": "settings-linecolor-gridcolorpicker",
+        "lineColorSettingsInput": "settings-linecolor-value",
 
         "lineWidthSettingsDiv": "settings-linewidth",
         "lineWidthSettingsHeader": "settings-linewidth-header",
         "lineWidthSettingsInput": "settings-linewidth-value",
         "addLineWidthSettingsButton": "settings-linewidth-add",
         "minusLineWidthSettingsButton": "settings-linewidth-minus",
+
+        "toolsSettingsDiv": "settings-tools",
+        "toolsSettingsScribbleToolButton": "settings-tools-scribbletool",
+        "toolsSettingsLineToolButton": "settings-tools-linetool",
+        "toolsSettingsSquareToolButton": "settings-tools-squaretool",
 
         "undoRedoDiv": "settings-undoredo",
         "undoButton": "settings-undoredo-undo",
@@ -27,8 +33,8 @@
         {"r": 255, "g": 174, "b": 174},
         {"r": 0, "g": 0, "b": 0},
         {"r": 255, "g": 160, "b": 72},
-        {"r": 255, "g": 178, "b": 50},
         {"r": 255, "g": 182, "b": 115},
+        {"r": 255, "g": 217, "b": 181},
         {"r": 56, "g": 56, "b": 56},
         {"r": 255, "g": 222, "b": 80},
         {"r": 255, "g": 234, "b": 87},

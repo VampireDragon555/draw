@@ -2,10 +2,10 @@ const mobile = "ontouchstart" in window
 
 const shapesElement = document.getElementById("shapes")
 
-const actionTypes = {"draw": "draw"}
+const actionTypes = {draw: "draw"}
 let actions = []
 
-let lineColor = {"r": 0, "g": 0, "b": 0, "a": 1}
+let lineColor = {r: 0, g: 0, b: 0, a: 1}
 let thickness = 10
 let usingTool = false
 
@@ -25,20 +25,26 @@ function setTool(tool) {
     else { shapesElement.onmousedown = tool }
 }
 
-function drawLine(shapeElement, drawnLine) {
+function drawLine(shapeElement, createLine, drawnLine) {
     const lineId = generateRandomId(7)
-    const cursor = (mobile ? window.event.touches : [window.event])
-    const position = {"x": cursor[0].clientX, "y": cursor[0].clientY}
+    let cursor = (mobile ? window.event.touches : [window.event])
+    const position = {x: cursor[0].clientX, y: cursor[0].clientY}
+    let updating = false
     function updateLine() {
+        if (updating) { return }
+        updating = true
         window.event.preventDefault()
-        const cursor = (mobile ? window.event.touches : [window.event])
 
-        shapeElement.lines.pop()
-        shapeElement.appendLine(lineId, {"x": position.x - shapeElement.x, "y": position.y - shapeElement.y}, {"x": cursor[0].clientX - shapeElement.x, "y": cursor[0].clientY - shapeElement.y})
-        shapeElement.refresh()
+        cursor = (mobile ? window.event.touches : [window.event])
+        if (createLine) { createLine({shape: shapeElement, lineId: lineId, originalX: position.x, originalY: position.y, currentX: cursor[0].clientX, currentY: cursor[0].clientY}) }
+        else {
+            shapeElement.lines.pop()
+            shapeElement.appendLine(lineId, {x: position.x - shapeElement.x, y: position.y - shapeElement.y}, {x: cursor[0].clientX - shapeElement.x, y: cursor[0].clientY - shapeElement.y})
+            shapeElement.refresh()
+        }
+        updating = false
     }
     function finalLine() {
-        updateLine()
         if (mobile) {
             shapesElement.ontouchmove = null
             shapesElement.ontouchend = null
@@ -46,7 +52,7 @@ function drawLine(shapeElement, drawnLine) {
             shapesElement.onmousemove = null
             shapesElement.onmouseup = null
         }
-        if (drawnLine) { drawnLine({"shapeElement": shapeElement, "lineId": lineId}) }
+        if (drawnLine) { drawnLine({shape: shapeElement, lineId: lineId, originalX: position.x, originalY: position.y, currentX: cursor[0].clientX, currentY: cursor[0].clientY}) }
     }
     if (mobile) {
         shapesElement.ontouchmove = updateLine
@@ -71,25 +77,86 @@ function lineTool() {
     lineShape.lineColor = formatColor(lineColor)
     lineShape.lineWidth = thickness
 
-    drawLine(lineShape, () => {
+    drawLine(lineShape, null ,() => {
         usingTool = false
-        actions.push({"type": actionTypes.draw, "element": lineElement, "shape": lineShape})
+        actions.push({type: actionTypes.draw, element: lineElement, shape: lineShape})
     })
 }
 
-// function shapeTool() {
-//     if (usingTool) { return }
-//     usingTool = true
+function squareTool() {
+    if (usingTool) { return }
+    usingTool = true
 
-//     const shapeElement = document.createElement("div")
-//     shapeElement.id = generateRandomId(7)
-//     shapesElement.appendChild(shapeElement)
+    const squareElement = document.createElement("div")
+    squareElement.id = generateRandomId(7)
+    shapesElement.appendChild(squareElement)
 
-//     const shapeShape = shapify(shapeElement)
-//     shapeShape.x = 0
-//     shapeShape.y = 0
-//     shapeShape.lineColor = formatColor(lineColor)
-//     shapeShape.lineWidth = thickness
+    const squareShape = shapify(squareElement)
+    squareShape.x = 0
+    squareShape.y = 0
+    squareShape.lineColor = formatColor(lineColor)
+    squareShape.lineWidth = thickness
 
-    
-// }
+    function createSquare(context) { // TODO fix line spawning ( usually spawns 3 more lines than expected)
+        context.shape.refresh()
+        const lineId = generateRandomId(7)
+        context.shape.lines = [
+            {id: `${lineId}-1`, a: {x: context.originalX, y: context.originalY}, b: {x: context.originalX, y: context.currentY}},
+            {id: `${lineId}-2`, a: {x: context.originalX, y: context.originalY}, b: {x: context.currentX, y: context.originalY}},
+            {id: `${lineId}-3`, a: {x: context.currentX, y: context.currentY}, b: {x: context.originalX, y: context.currentY}},
+            {id: `${lineId}-4`, a: {x: context.currentX, y: context.currentY}, b: {x: context.currentX, y: context.originalY}}
+        ]
+        context.shape.refresh()
+    }
+
+    drawLine(squareShape, createSquare, context => {
+        createSquare(context)
+        actions.push({type: actionTypes.draw, element: squareElement, shape: squareShape})
+        usingTool = false
+    })
+}
+
+function scribbleTool() {
+    if (usingTool) { return }
+    usingTool = true
+
+    const scribbleElement = document.createElement("div")
+    scribbleElement.id = generateRandomId(7)
+    shapesElement.appendChild(scribbleElement)
+
+    const scribbleShape = shapify(scribbleElement)
+    scribbleShape.x = 0
+    scribbleShape.y = 0
+    scribbleShape.lineColor = formatColor(lineColor)
+    scribbleShape.lineWidth = thickness
+
+    let lastPosition = {}
+    let count = 0
+    let refreshCount = mobile ? 3 : 1
+
+    function scribble(shapeElement, a, b) {
+        shapeElement.appendLine(generateRandomId(10), a, b)
+        if (count < refreshCount) { count += 1 }
+        else {
+            count = 0
+            shapeElement.refresh()
+        }
+    }
+
+    function createScribble(context) {
+        if (lastPosition === {}) { lastPosition = {x: context.originalX, y: context.originalY} }
+        scribble(context.shape, lastPosition, {x: context.currentX, y: context.currentY})
+        lastPosition = {x: context.currentX, y: context.currentY}
+    }
+
+    drawLine(scribbleShape, createScribble, context => {
+        actions.push({type: actionTypes.draw, element: scribbleElement, shape: scribbleShape})
+        usingTool = false
+    })
+}
+
+function initializeTools() {
+    document.getElementById(elementIds.toolsSettingsScribbleToolButton).onclick = () => { setTool(scribbleTool) }
+    document.getElementById(elementIds.toolsSettingsLineToolButton).onclick = () => { setTool(lineTool) }
+    document.getElementById(elementIds.toolsSettingsSquareToolButton).onclick = () => { setTool(squareTool) }
+}
