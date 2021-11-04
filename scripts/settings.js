@@ -1,3 +1,11 @@
+// TODO Implement hide settings (like on the mobile version)
+// TODO Changable background color (both versions)
+// TODO Settings Dim when using tool (both versions)
+// TODO Make current keyboard shortcuts more intuitive
+// TODO Implement a 'no custom cursor' button
+// TODO Remove custom colors on mobile
+// TODO When Pressed esc the current tool stops being used
+
 function updateLineColorInputA() { document.getElementById(elementIds.lineColorSettingsInputA).value = lineColor.a * 100 }
 
 function toggleLineColorInputOutline() {

@@ -27,9 +27,9 @@ function updateCursor() {
         cursorThumbElement.style.top = `${(thickness - 88) / 2}px`
     }
 
-    //setTimeout(() => {
-    //    if (cursorElement.style.left == leftStyle && cursorElement.style.top == topStyle) { cursorElement.hidden = true }
-    //}, 500)
+    setTimeout(() => {
+        if (cursorElement.style.left == leftStyle && cursorElement.style.top == topStyle) { cursorElement.hidden = true }
+    }, 500)
 }
 function initializeCursor() {
     document.body.ontouchmove = updateCursor
