@@ -93,11 +93,7 @@ function squareTool() {
             {id: `${lineId}-3`, a: {x: context.currentX, y: context.currentY}, b: {x: context.originalX, y: context.currentY}},
             {id: `${lineId}-4`, a: {x: context.currentX, y: context.currentY}, b: {x: context.currentX, y: context.originalY}}
         ]
-        if (movedDistance < refreshOnDistance) { movedDistance += distanceFromAtoB(a, b) }
-        else {
-            movedDistance = 0
-            shapeElement.refresh()
-        }
+        context.shape.refresh()
     }
 
     drawLine(squareShape, createSquare, context => {

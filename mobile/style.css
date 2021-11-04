@@ -161,26 +161,26 @@ input:focus {
     background-color: black;
 }
 
-#cursorthumb {
+#cursor {
     position: fixed;
+    border-style: solid;
     color: white;
     mix-blend-mode: difference;
+    border-color: currentColor;
+    border-width: 1px;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+}
+#cursor-thumb {
+    position: relative;
     border-style: solid;
     border-color: currentColor;
     border-width: 1px;
     border-radius: 100%;
     width: 80px;
     height: 80px;
-    pointer-events: none;
-}
-#cursor {
-    position: relative;
-    border-style: solid;
-    border-color: currentColor;
-    border-width: 1px;
-    border-radius: 100%;
-    width: 12px;
-    height: 12px;
 }
 #cursor-dot {
     position: relative;

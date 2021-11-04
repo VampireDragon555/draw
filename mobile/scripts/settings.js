@@ -136,6 +136,16 @@ function minusLineWidth() {
 let removedActions = []
 
 let undoPressing = false
+function undoAction() {
+    if (action = actions.pop()) {
+        if (action.type === actionTypes.draw) {
+            const shapeId = action.shape.id
+            shapesElement.removeChild(document.getElementById(shapeId))
+            if (removedActions.length >= 10) { removedActions.splice(0, 1) }
+            removedActions.push(action)
+        }
+    }
+}
 function undo() {
     if (undoPressing) { return }
     undoPressing = true
@@ -143,16 +153,6 @@ function undo() {
     function stopUndo() {
         undoPressing = false
         undoButton.ontouchend = null
-    }
-    function undoAction() {
-        if (action = actions.pop()) {
-            if (action.type === actionTypes.draw) {
-                const shapeId = action.shape.id
-                shapesElement.removeChild(document.getElementById(shapeId))
-                if (removedActions.length >= 10) { removedActions.splice(0, 1) }
-                removedActions.push(action)
-            }
-        }
     }
     function repeatUndoAction() {
         if (!undoPressing) { return }
@@ -165,6 +165,14 @@ function undo() {
 }
 
 let redoPressing = false
+function redoAction() {
+    if (action = removedActions.pop()) {
+        if (action.type === actionTypes.draw) {
+            actions.push(action)
+            shapesElement.appendChild(action.element)
+        }
+    }
+}
 function redo() {
     if (redoPressing) { return }
     redoPressing = true
@@ -172,14 +180,6 @@ function redo() {
     function stopRedo() {
         redoPressing = false
         redoButton.ontouchend = null
-    }
-    function redoAction() {
-        if (action = removedActions.pop()) {
-            if (action.type === actionTypes.draw) {
-                actions.push(action)
-                shapesElement.appendChild(action.element)
-            }
-        }
     }
     function repeatRedoAction() {
         if (!redoPressing) { return }
