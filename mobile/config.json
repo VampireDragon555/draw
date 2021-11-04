@@ -1,19 +1,23 @@
 {
-    "mobile": false,
+    "mobile": true,
     "elementIds": {
         "cursor": "cursor",
         "cursorDot": "cursor-dot",
 
         "shapesDiv": "shapes",
 
+        "showSettingsButton": "showsettings",
+        "hideSettingsButton": "hidesettings",
         "settingsDiv": "settings",
 
+        "showLineColorSettingsButton": "settings-showlinecolor",
         "lineColorSettingsDiv": "settings-linecolor",
         "lineColorSettingsHeader": "settings-linecolor-header",
         "lineColorSettingsInputA": "settings-linecolor-avalue",
         "lineColorSettingsGrid": "settings-linecolor-gridcolorpicker",
         "lineColorSettingsInput": "settings-linecolor-value",
 
+        "showLineWidthSettingsButton": "settings-showlinewidth",
         "lineWidthSettingsDiv": "settings-linewidth",
         "lineWidthSettingsHeader": "settings-linewidth-header",
         "lineWidthSettingsInput": "settings-linewidth-value",
