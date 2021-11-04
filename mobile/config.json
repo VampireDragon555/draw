@@ -1,8 +1,8 @@
 {
     "mobile": true,
     "elementIds": {
-        "cursorThumb": "cursorthumb",
         "cursor": "cursor",
+        "cursorThumb": "cursor-thumb",
         "cursorDot": "cursor-dot",
 
         "shapesDiv": "shapes",

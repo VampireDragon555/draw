@@ -92,7 +92,7 @@ function squareTool() {
             {id: `${lineId}-3`, a: {x: context.currentX, y: context.currentY}, b: {x: context.originalX, y: context.currentY}},
             {id: `${lineId}-4`, a: {x: context.currentX, y: context.currentY}, b: {x: context.currentX, y: context.originalY}}
         ]
-        context.shape.refresh
+        context.shape.refresh()
     }
 
     drawLine(squareShape, createSquare, context => {

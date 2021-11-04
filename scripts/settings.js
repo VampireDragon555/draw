@@ -136,6 +136,16 @@ function minusLineWidth() {
 let removedActions = []
 
 let undoPressing = false
+function undoAction() {
+    if (action = actions.pop()) {
+        if (action.type === actionTypes.draw) {
+            const shapeId = action.shape.id
+            shapesElement.removeChild(document.getElementById(shapeId))
+            if (removedActions.length >= 10) { removedActions.splice(0, 1) }
+            removedActions.push(action)
+        }
+    }
+}
 function undo() {
     if (undoPressing) { return }
     undoPressing = true
@@ -143,16 +153,6 @@ function undo() {
     function stopUndo() {
         undoPressing = false
         undoButton.onmouseup = null
-    }
-    function undoAction() {
-        if (action = actions.pop()) {
-            if (action.type === actionTypes.draw) {
-                const shapeId = action.shape.id
-                shapesElement.removeChild(document.getElementById(shapeId))
-                if (removedActions.length >= 10) { removedActions.splice(0, 1) }
-                removedActions.push(action)
-            }
-        }
     }
     function repeatUndoAction() {
         if (!undoPressing) { return }
@@ -165,6 +165,14 @@ function undo() {
 }
 
 let redoPressing = false
+function redoAction() {
+    if (action = removedActions.pop()) {
+        if (action.type === actionTypes.draw) {
+            actions.push(action)
+            shapesElement.appendChild(action.element)
+        }
+    }
+}
 function redo() {
     if (redoPressing) { return }
     redoPressing = true
@@ -172,14 +180,6 @@ function redo() {
     function stopRedo() {
         redoPressing = false
         redoButton.onmouseup = null
-    }
-    function redoAction() {
-        if (action = removedActions.pop()) {
-            if (action.type === actionTypes.draw) {
-                actions.push(action)
-                shapesElement.appendChild(action.element)
-            }
-        }
     }
     function repeatRedoAction() {
         if (!redoPressing) { return }
@@ -236,5 +236,18 @@ function initializeSettings() {
     document.getElementById(elementIds.addLineWidthSettingsButton).onmousedown = addLineWidth
     document.getElementById(elementIds.minusLineWidthSettingsButton).onmousedown = minusLineWidth
     document.getElementById(elementIds.clearCanvasButton).onclick = clearCanvasComfirm
+    document.onkeyup = () => {
+        switch (window.event.keyCode) {
+            case 90: undoAction()
+            break
+            case 88: redoAction()
+            break
+            case 85: setTool(squareTool)
+            break
+            case 80: setTool(lineTool)
+            break
+            case 66: setTool(scribbleTool)
+        }
+    }
 }
 document.getElementById("settings").hidden = true
