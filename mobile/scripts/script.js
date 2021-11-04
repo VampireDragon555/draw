@@ -11,7 +11,7 @@ function loadResources() {
         elementIds = json.elementIds
         presetLineColors = json.presetLineColors
         document.getElementById("loading-notice").hidden = true
-        document.getElementById("shapes").hidden = false
+        document.getElementById("view").hidden = false
         initializeCursor()
         setTool(scribbleTool)
         initializeTools()
@@ -27,10 +27,7 @@ function initialize() {
         window.location = `${window.location.protocol}//${window.location.host}${mobilePath}`
         return
     }
-    if (!elementIds) {
-        document.getElementById("shapes").hidden = true
-        document.getElementById("settings").hidden = true
-    }
+    if (!elementIds) { document.getElementById("view").hidden = true }
     loadResources()
 }
 initialize()

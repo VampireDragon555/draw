@@ -7,18 +7,22 @@ function updateCursor() {
 
     cursorElement.hidden = false
 
-    cursorElement.style.width = `${thickness + 2}px`
-    cursorElement.style.height = `${thickness + 2}px`
+    const dividedThickness = thickness / 2
+    const cursorElementSize = `${thickness + 2}px`
+    cursorElement.style.width = cursorElementSize
+    cursorElement.style.height = cursorElementSize
 
-    const leftStyle = `${(Math.round(cursorPosition[0].clientX - (thickness / 2) - 2))}px`
-    const topStyle = `${(Math.round(cursorPosition[0].clientY - (thickness / 2) - 2))}px`
+    const leftStyle = `${(Math.round(cursorPosition[0].clientX - dividedThickness - 2))}px`
+    const topStyle = `${(Math.round(cursorPosition[0].clientY - dividedThickness - 2))}px`
     cursorElement.style.left = leftStyle
     cursorElement.style.top = topStyle
-    cursorDotElement.style.left = `${(thickness - 2) / 2}px`
-    cursorDotElement.style.top = `${(thickness - 2) / 2}px`
+
+    const cursorDotElementOffset = `${dividedThickness - 1}px`
+    cursorDotElement.style.left = cursorDotElementOffset
+    cursorDotElement.style.top = cursorDotElementOffset
 
     setTimeout(() => {
-        if (cursorElement.style.left === leftStyle && cursorElement.style.top === topStyle) { cursorElement.hidden = true }
+        if (cursorElement.style.left == leftStyle && cursorElement.style.top == topStyle) { cursorElement.hidden = true }
     }, 2500)
 }
 function initializeCursor() {

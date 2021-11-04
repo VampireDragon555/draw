@@ -6,7 +6,7 @@ let actions = []
 let lineColor = {r: 0, g: 0, b: 0, a: 1}
 let thickness = 10
 let usingTool = false
-let refreshOnCount = 3
+let refreshOnDistance = 15
 
 function formatColor(color) {
     return(`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a ? color.a : 1})`)
@@ -82,6 +82,8 @@ function squareTool() {
     squareShape.lineColor = formatColor(lineColor)
     squareShape.lineWidth = thickness
 
+    let movedDistance = 0
+
     function createSquare(context) { // TODO fix line spawning ( usually spawns 3 more lines than expected)
         context.shape.refresh()
         const lineId = generateRandomId(7)
@@ -91,7 +93,11 @@ function squareTool() {
             {id: `${lineId}-3`, a: {x: context.currentX, y: context.currentY}, b: {x: context.originalX, y: context.currentY}},
             {id: `${lineId}-4`, a: {x: context.currentX, y: context.currentY}, b: {x: context.currentX, y: context.originalY}}
         ]
-        context.shape.refresh()
+        if (movedDistance < refreshOnDistance) { movedDistance += distanceFromAtoB(a, b) }
+        else {
+            movedDistance = 0
+            shapeElement.refresh()
+        }
     }
 
     drawLine(squareShape, createSquare, context => {
@@ -116,13 +122,13 @@ function scribbleTool() {
     scribbleShape.lineWidth = thickness
 
     let lastPosition = {}
-    let count = 0
+    let movedDistance = 0
 
     function scribble(shapeElement, a, b) {
         shapeElement.appendLine(generateRandomId(10), a, b)
-        if (count < refreshOnCount) { count += 1 }
+        if (movedDistance < refreshOnDistance) { movedDistance += distanceFromAtoB(a, b) }
         else {
-            count = 0
+            movedDistance = 0
             shapeElement.refresh()
         }
     }

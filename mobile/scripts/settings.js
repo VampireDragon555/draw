@@ -247,12 +247,13 @@ function initializeSettings() {
     document.getElementById(elementIds.addLineWidthSettingsButton).ontouchstart = addLineWidth
     document.getElementById(elementIds.minusLineWidthSettingsButton).ontouchstart = minusLineWidth
     document.getElementById(elementIds.clearCanvasButton).onclick = clearCanvasComfirm
+    const settingsElement = document.getElementById(elementIds.settingsDiv)
     document.getElementById(elementIds.showSettingsButton).onclick = () => {
         document.getElementById(elementIds.showSettingsButton).hidden = true
-        document.getElementById(elementIds.settingsDiv).hidden = false
+        settingsElement.hidden = false
     }
     document.getElementById(elementIds.hideSettingsButton).onclick = () => {
-        document.getElementById(elementIds.settingsDiv).hidden = true
+        settingsElement.hidden = true
         document.getElementById(elementIds.showSettingsButton).hidden = false
     }
 }

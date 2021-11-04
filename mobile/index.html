@@ -12,36 +12,40 @@
     <div id="loading-notice">
         <h1>Loading resources..</h1>
     </div>
-    <div id="shapes">
-    </div>
-    <button id="showsettings" class="singlebutton">Show Settings</button>
-    <div id="settings">
-        <button id="hidesettings" class="singlebutton">Hide Settings</button>
-        <button id="settings-showlinecolor" class="singlebutton">Show Color</button>
-        <div id="settings-linecolor" class="subsettings">
-            <input type="range" id="settings-linecolor-avalue" class="sliderinput">
-            <div id="settings-linecolor-gridcolorpicker" class="gridcolorpickerinput"></div>
-            <input type="color" id="settings-linecolor-value" class="colorinput">
+    <div id="view">
+        <div id="shapes">
         </div>
-        <button id="settings-showlinewidth" class="singlebutton">Show Width</button>
-        <div id="settings-linewidth" class="subsettings">
-            <input type="number" id="settings-linewidth-value" class="numberinput">
-            <button id="settings-linewidth-add" class="doublebuttons">+</button>
-            <button id="settings-linewidth-minus" class="doublebuttons">-</button>
+        <button id="showsettings" class="singlebutton">Show Settings</button>
+        <div id="settings">
+            <button id="hidesettings" class="singlebutton">Hide Settings</button>
+            <button id="settings-showlinecolor" class="singlebutton">Show Color</button>
+            <div id="settings-linecolor" class="subsettings">
+                <input type="range" id="settings-linecolor-avalue" class="sliderinput">
+                <div id="settings-linecolor-gridcolorpicker" class="gridcolorpickerinput"></div>
+                <input type="color" id="settings-linecolor-value" class="colorinput">
+            </div>
+            <button id="settings-showlinewidth" class="singlebutton">Show Width</button>
+            <div id="settings-linewidth" class="subsettings">
+                <input type="number" id="settings-linewidth-value" class="numberinput">
+                <button id="settings-linewidth-add" class="doublebuttons">+</button>
+                <button id="settings-linewidth-minus" class="doublebuttons">-</button>
+            </div>
+            <div id="settings-tools" class="subsettings">
+                <button id="settings-tools-scribbletool" class="singlebutton">Scribble Tool</button>
+                <button id="settings-tools-linetool" class="doublebuttons">Line Tool</button>
+                <button id="settings-tools-squaretool" class="doublebuttons">Square Tool</button>
+            </div>
+            <div id="settings-undoredo" class="subsettings">
+                <button id="settings-undoredo-undo" class="doublebuttons">Undo</button>
+                <button id="settings-undoredo-redo" class="doublebuttons">Redo</button>
+            </div>
+            <button id="settings-clear" class="singlebutton">Clear Canvas</button>
         </div>
-        <div id="settings-tools" class="subsettings">
-            <button id="settings-tools-scribbletool" class="singlebutton">Scribble Tool</button>
-            <button id="settings-tools-linetool" class="doublebuttons">Line Tool</button>
-            <button id="settings-tools-squaretool" class="doublebuttons">Square Tool</button>
+        <div id="cursorthumb">
+            <div id="cursor">
+                <div id="cursor-dot"></div>
+            </div>
         </div>
-        <div id="settings-undoredo" class="subsettings">
-            <button id="settings-undoredo-undo" class="doublebuttons">Undo</button>
-            <button id="settings-undoredo-redo" class="doublebuttons">Redo</button>
-        </div>
-        <button id="settings-clear" class="singlebutton">Clear Canvas</button>
-    </div>
-    <div id="cursor">
-        <div id="cursor-dot"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/gh/charlesyiu/webmodules@v0.1/graphics/lines.js"></script>
     <script src="scripts/tools.js"></script>

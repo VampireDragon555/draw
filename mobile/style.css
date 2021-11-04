@@ -1,7 +1,7 @@
 body {
     margin: 0;
-    overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 
 #shapes {
@@ -10,7 +10,6 @@ body {
     height: 100%;
     background-color: white;
 }
-
 
 #settings {
     position: fixed;
@@ -21,8 +20,9 @@ body {
     padding: 10px;
     margin: 10px;
     width: 147.5px;
+    overflow-y: scroll;
+    max-height: calc(100% - 40px);
 }
-
 
 .subsettings {
     background-color: rgba(0, 0, 0, 0.05);
@@ -161,7 +161,7 @@ input:focus {
     background-color: black;
 }
 
-#cursor {
+#cursorthumb {
     position: fixed;
     color: white;
     mix-blend-mode: difference;
@@ -169,9 +169,18 @@ input:focus {
     border-color: currentColor;
     border-width: 1px;
     border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+}
+#cursor {
+    position: relative;
+    border-style: solid;
+    border-color: currentColor;
+    border-width: 1px;
+    border-radius: 100%;
     width: 12px;
     height: 12px;
-    pointer-events: none;
 }
 #cursor-dot {
     position: relative;
