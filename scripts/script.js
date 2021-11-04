@@ -1,6 +1,7 @@
 // TODO Save Settings and Canvas data
-const mobilePath = "/mobile/"
-const computerPath = "/"
+const homePath = window.location.hostname === "charlesyiu.github.io" ? "/draw" : ""
+const mobilePath = `${homePath}/mobile/`
+const computerPath = `${homePath}/`
 let elementIds = null
 let presetLineColors = null
 function loadResources() {
