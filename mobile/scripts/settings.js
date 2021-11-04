@@ -4,11 +4,11 @@ function toggleLineColorInputOutline() {
     const lineColorInput = document.getElementById(elementIds.lineColorSettingsInput)
     if (!lineColorInput.style.border) {
         lineColorInput.style.border = "5px solid white"
-        if (window.safari !== undefined) { lineColorInput.style.width = "91.5%" }
+        if (navigator.vendor ===  "Apple Computer, Inc.") { lineColorInput.style.width = "91.5%" }
         lineColorInput.style.marginTop = "9%"
     } else {
         lineColorInput.style.border = ""
-        if (window.safari !== undefined) { lineColorInput.style.width = "96.5%" }
+        if (navigator.vendor ===  "Apple Computer, Inc.") { lineColorInput.style.width = "96.5%" }
         lineColorInput.style.marginTop = "10%"
     }
 }
@@ -92,7 +92,7 @@ function addLineWidth() {
     const addLineWidthSettingsButton = document.getElementById(elementIds.addLineWidthSettingsButton)
     function stopAddLineWidth() {
         addLineWidthPressing = false
-        addLineWidthSettingsButton.onmouseup = null
+        addLineWidthSettingsButton.ontouchend = null
     }
     function addLineWidthAction() {
         if (thickness >= 150) { return }
@@ -104,7 +104,7 @@ function addLineWidth() {
         addLineWidthAction()
         setTimeout(repeatAddLineWidthAction, 125)
     }
-    addLineWidthSettingsButton.onmouseup = stopAddLineWidth
+    addLineWidthSettingsButton.ontouchend = stopAddLineWidth
     addLineWidthAction()
     setTimeout(() => { if (addLineWidthPressing) { repeatAddLineWidthAction() } }, 1000)
 }
@@ -116,7 +116,7 @@ function minusLineWidth() {
     const minusLineWidthSettingsButton = document.getElementById(elementIds.minusLineWidthSettingsButton)
     function stopMinusLineWidth() {
         minusLineWidthPressing = false
-        minusLineWidthSettingsButton.onmouseup = null
+        minusLineWidthSettingsButton.ontouchend = null
     }
     function minusLineWidthAction() {
         if (thickness <= 1) { return }
@@ -128,7 +128,7 @@ function minusLineWidth() {
         minusLineWidthAction()
         setTimeout(repeatMinusLineWidthAction, 125)
     }
-    minusLineWidthSettingsButton.onmouseup = stopMinusLineWidth 
+    minusLineWidthSettingsButton.ontouchend = stopMinusLineWidth
     minusLineWidthAction()
     setTimeout(() => { if (minusLineWidthPressing) { repeatMinusLineWidthAction() } }, 1000)
 }
@@ -142,7 +142,7 @@ function undo() {
     const undoButton = document.getElementById(elementIds.undoButton)
     function stopUndo() {
         undoPressing = false
-        undoButton.onmouseup = null
+        undoButton.ontouchend = null
     }
     function undoAction() {
         if (action = actions.pop()) {
@@ -159,7 +159,7 @@ function undo() {
         undoAction()
         setTimeout(repeatUndoAction, 125)
     }
-    undoButton.onmouseup = stopUndo
+    undoButton.ontouchend = stopUndo
     undoAction()
     setTimeout(() => { if (undoPressing) { repeatUndoAction() } }, 1000)
 }
@@ -171,7 +171,7 @@ function redo() {
     const redoButton = document.getElementById(elementIds.redoButton)
     function stopRedo() {
         redoPressing = false
-        redoButton.onmouseup = null
+        redoButton.ontouchend = null
     }
     function redoAction() {
         if (action = removedActions.pop()) {
@@ -186,7 +186,7 @@ function redo() {
         redoAction()
         setTimeout(repeatRedoAction, 125)
     }
-    redoButton.onmouseup = stopRedo
+    redoButton.ontouchend = stopRedo
     redoAction()
     setTimeout(() => { if (redoPressing) { repeatRedoAction() } }, 1000)
 }
@@ -219,22 +219,40 @@ function clearCanvas() {
 }
 
 function initializeSettings() {
-    document.getElementById("settings").hidden = false
     generateLineColorGrid()
     document.getElementById(elementIds.lineColorSettingsInputA).oninput = setLineColorA
     document.getElementById(elementIds.lineColorSettingsInputA).value = lineColor.a
     updateLineColorInputA()
     document.getElementById(elementIds.lineColorSettingsInput).oninput = setLineColor
-    if (window.safari !== undefined) {
+    if (navigator.vendor ===  "Apple Computer, Inc.") {
         document.getElementById(elementIds.lineColorSettingsInput).style.width = "96.5%"
+    }
+    document.getElementById(elementIds.lineColorSettingsDiv).hidden = true
+    document.getElementById(elementIds.showLineColorSettingsButton).onclick = () => {
+        const lineColorSettingsDiv = document.getElementById(elementIds.lineColorSettingsDiv)
+        lineColorSettingsDiv.hidden = !lineColorSettingsDiv.hidden
+        document.getElementById(elementIds.showLineColorSettingsButton).textContent = lineColorSettingsDiv.hidden ? "Show Color" : "Hide Color"
     }
     document.getElementById(elementIds.lineWidthSettingsInput).oninput = setLineWidth
     document.getElementById(elementIds.lineWidthSettingsInput).value = thickness
     updateLineWidthInput()
-    document.getElementById(elementIds.undoButton).onmousedown = undo
-    document.getElementById(elementIds.redoButton).onmousedown = redo
-    document.getElementById(elementIds.addLineWidthSettingsButton).onmousedown = addLineWidth
-    document.getElementById(elementIds.minusLineWidthSettingsButton).onmousedown = minusLineWidth
+    document.getElementById(elementIds.lineWidthSettingsDiv).hidden = true
+    document.getElementById(elementIds.showLineWidthSettingsButton).onclick = () => {
+        const lineWidthSettingsDiv = document.getElementById(elementIds.lineWidthSettingsDiv)
+        lineWidthSettingsDiv.hidden = !lineWidthSettingsDiv.hidden
+        document.getElementById(elementIds.showLineWidthSettingsButton).textContent = lineWidthSettingsDiv.hidden ? "Show Width" : "Hide Width"
+    }
+    document.getElementById(elementIds.undoButton).ontouchstart = undo
+    document.getElementById(elementIds.redoButton).ontouchstart = redo
+    document.getElementById(elementIds.addLineWidthSettingsButton).ontouchstart = addLineWidth
+    document.getElementById(elementIds.minusLineWidthSettingsButton).ontouchstart = minusLineWidth
     document.getElementById(elementIds.clearCanvasButton).onclick = clearCanvasComfirm
+    document.getElementById(elementIds.showSettingsButton).onclick = () => {
+        document.getElementById(elementIds.showSettingsButton).hidden = true
+        document.getElementById(elementIds.settingsDiv).hidden = false
+    }
+    document.getElementById(elementIds.hideSettingsButton).onclick = () => {
+        document.getElementById(elementIds.settingsDiv).hidden = true
+        document.getElementById(elementIds.showSettingsButton).hidden = false
+    }
 }
-document.getElementById("settings").hidden = true

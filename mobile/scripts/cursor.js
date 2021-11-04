@@ -1,5 +1,5 @@
 function updateCursor() {
-    const cursorPosition = [window.event]
+    const cursorPosition = window.event.touches
     if (cursorPosition[0] === undefined) { return }
     const cursorElement = document.getElementById(elementIds.cursor)
     const cursorDotElement = document.getElementById(elementIds.cursorDot)
@@ -12,5 +12,5 @@ function updateCursor() {
     cursorDotElement.style.top = `${(thickness - 2) / 2}px`
 }
 function initializeCursor() {
-    document.body.onmousemove = updateCursor
+    document.body.ontouchmove = updateCursor
 }

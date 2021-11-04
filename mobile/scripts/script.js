@@ -1,4 +1,4 @@
-// TODO Save Settings and Canvas data
+// TODO Save Settings and Canvas data=
 const mobilePath = "/mobile/"
 const computerPath = "/"
 let elementIds = null
@@ -11,7 +11,6 @@ function loadResources() {
         presetLineColors = json.presetLineColors
         document.getElementById("loading-notice").hidden = true
         document.getElementById("shapes").hidden = false
-        document.getElementById("settings").hidden = false
         initializeCursor()
         setTool(scribbleTool)
         initializeTools()
@@ -19,12 +18,12 @@ function loadResources() {
     })
 }
 function initialize() {
-    if ("ontouchstart" in window) {
-        window.location = `${window.location.protocol}//${window.location.host}${mobilePath}`
+    if (!("ontouchstart" in window)) {
+        window.location = `${window.location.protocol}//${window.location.host}${computerPath}`
         return
     }
     if (window.location.pathname.endsWith("index.html", window.location.pathname.length - 10) || !window.location.pathname.endsWith("/")) {
-        window.location = `${window.location.protocol}//${window.location.host}${computerPath}`
+        window.location = `${window.location.protocol}//${window.location.host}${mobilePath}`
         return
     }
     if (!elementIds) {

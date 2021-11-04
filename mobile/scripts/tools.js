@@ -1,11 +1,12 @@
 const shapesElement = document.getElementById("shapes")
+
 const actionTypes = {draw: "draw"}
 let actions = []
 
 let lineColor = {r: 0, g: 0, b: 0, a: 1}
 let thickness = 10
 let usingTool = false
-let refreshOnCount = 1
+let refreshOnCount = 3
 
 function formatColor(color) {
     return(`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a ? color.a : 1})`)
@@ -18,19 +19,18 @@ function generateRandomId(characterCount) {
     return(id)
 }
 
-function setTool(tool) { shapesElement.onmousedown = tool }
+function setTool(tool) { shapesElement.ontouchstart = tool }
 
 function drawLine(shapeElement, createLine, drawnLine) {
     const lineId = generateRandomId(7)
-    let cursor = [window.event]
+    let cursor = window.event.touches
     const position = {x: cursor[0].clientX, y: cursor[0].clientY}
     let updating = false
     function updateLine() {
         if (updating) { return }
         updating = true
-        window.event.preventDefault()
 
-        cursor = [window.event]
+        cursor = window.event.touches
         if (createLine) { createLine({shape: shapeElement, lineId: lineId, originalX: position.x, originalY: position.y, currentX: cursor[0].clientX, currentY: cursor[0].clientY}) }
         else {
             shapeElement.lines.pop()
@@ -40,12 +40,12 @@ function drawLine(shapeElement, createLine, drawnLine) {
         updating = false
     }
     function finalLine() {
-        shapesElement.onmousemove = null
-        shapesElement.onmouseup = null
+        shapesElement.ontouchmove = null
+        shapesElement.ontouchend = null
         if (drawnLine) { drawnLine({shape: shapeElement, lineId: lineId, originalX: position.x, originalY: position.y, currentX: cursor[0].clientX, currentY: cursor[0].clientY}) }
     }
-    shapesElement.onmousemove = updateLine
-    shapesElement.onmouseup = finalLine
+    shapesElement.ontouchmove = updateLine
+    shapesElement.ontouchend = finalLine
 }
 
 function lineTool() {
@@ -82,9 +82,8 @@ function squareTool() {
     squareShape.lineColor = formatColor(lineColor)
     squareShape.lineWidth = thickness
 
-    let count = 0
-
     function createSquare(context) { // TODO fix line spawning ( usually spawns 3 more lines than expected)
+        context.shape.refresh()
         const lineId = generateRandomId(7)
         context.shape.lines = [
             {id: `${lineId}-1`, a: {x: context.originalX, y: context.originalY}, b: {x: context.originalX, y: context.currentY}},
@@ -92,11 +91,7 @@ function squareTool() {
             {id: `${lineId}-3`, a: {x: context.currentX, y: context.currentY}, b: {x: context.originalX, y: context.currentY}},
             {id: `${lineId}-4`, a: {x: context.currentX, y: context.currentY}, b: {x: context.currentX, y: context.originalY}}
         ]
-        if (count < refreshOnCount) { count += 1 }
-        else {
-            count = 0
-            context.shape.refresh()
-        }
+        context.shape.refresh()
     }
 
     drawLine(squareShape, createSquare, context => {
