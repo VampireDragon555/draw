@@ -2,28 +2,36 @@ function updateCursor() {
     const cursorPosition = window.event.touches
     if (cursorPosition[0] === undefined) { return }
 
+    const cursorThumbElement = document.getElementById(elementIds.cursorThumb)
     const cursorElement = document.getElementById(elementIds.cursor)
     const cursorDotElement = document.getElementById(elementIds.cursorDot)
 
-    cursorElement.hidden = false
+    cursorThumbElement.hidden = false
 
-    cursorElement.style.width = `${thickness + 2}px`
-    cursorElement.style.height = `${thickness + 2}px`
+    const dividedThickness = thickness / 2
+    const cursorElementSize = `${thickness + 2}px`
+    cursorElement.style.width = cursorElementSize
+    cursorElement.style.height = cursorElementSize
 
-    const leftStyle = `${(Math.round(cursorPosition[0].clientX - (thickness / 2) - 2))}px`
-    const topStyle = `${(Math.round(cursorPosition[0].clientY - (thickness / 2) - 2))}px`
-    cursorElement.style.left = leftStyle
-    cursorElement.style.top = topStyle
-    cursorDotElement.style.left = `${(thickness - 2) / 2}px`
-    cursorDotElement.style.top = `${(thickness - 2) / 2}px`
+    const leftStyle = `${(Math.round(cursorPosition[0].clientX - 38))}px`
+    const topStyle = `${(Math.round(cursorPosition[0].clientY - 38))}px`
+    cursorThumbElement.style.left = leftStyle
+    cursorThumbElement.style.top = topStyle
+
+    const cursorElementOffset = `${38 - dividedThickness}px`
+    cursorElement.style.left = cursorElementOffset
+    cursorElement.style.top = cursorElementOffset
+
+    const cursorDotElementOffset = `${dividedThickness - 1}px`
+    cursorDotElement.style.left = cursorDotElementOffset
+    cursorDotElement.style.top = cursorDotElementOffset
 
     setTimeout(() => {
-        if (cursorElement.style.left === leftStyle && cursorElement.style.top === topStyle) {
-            cursorElement.hidden = true
-        }
-    }, 2500)
+        if (cursorThumbElement.style.left == leftStyle && cursorThumbElement.style.top == topStyle) { cursorThumbElement.hidden = true }
+    }, 500)
 }
 function initializeCursor() {
     document.body.ontouchmove = updateCursor
-    document.getElementById(elementIds.cursor).hidden = true
+    document.body.ontouchstart = updateCursor
+    document.getElementById(elementIds.cursorThumb).hidden = true
 }
