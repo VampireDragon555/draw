@@ -4,6 +4,10 @@ let presetLineColors = null
 const port = window.location.port != "" ? `:${window.location.port}` : ""
 const configUrl = `${window.location.protocol}//${window.location.hostname}${port}${window.location.pathname}config.json`
 function initialize() {
+    if (window.location.pathname === "/index.html") {
+        window.location = `${window.location.protocol}//${window.location.hostname}${port}/`
+        return
+    }
     fetch(configUrl)
         .then(response => response.json())
         .then(json => {
