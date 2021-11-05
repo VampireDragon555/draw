@@ -1,5 +1,5 @@
 // TODO Save Settings and Canvas data=
-const homePath = window.location.hostname === "charlesyiu.github.io" ? "/draw" : ""
+const homePath = window.location.hostname === "vampiredragon555.github.io" ? "/draw" : ""
 const mobilePath = `${homePath}/mobile/`
 const computerPath = `${homePath}/`
 let elementIds = null
